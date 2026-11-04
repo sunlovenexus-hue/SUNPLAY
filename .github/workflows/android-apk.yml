@@ -26,8 +26,53 @@ jobs:
       - name: Install project dependencies
         run: npm install
 
+      - name: Add MP3 encoder to the app
+        run: |
+          cp node_modules/lamejs/lame.min.js www/lame.min.js || cp node_modules/lamejs/lame.all.js www/lame.min.js || echo "lamejs file not found - WAV fallback will be used"
+
       - name: Generate Android project
         run: npx cap add android
+
+      - name: Create SUNPLAY logo icons
+        run: |
+          pip install pillow
+          cat > make_icons.py <<'PYEOF'
+          from PIL import Image, ImageDraw
+          import math, os
+          def sun(size, bg=None, scale=1.0, shape='square'):
+              S=size*4
+              img=Image.new('RGBA',(S,S),(0,0,0,0)); d=ImageDraw.Draw(img)
+              if bg:
+                  if shape=='round': d.ellipse((0,0,S-1,S-1),fill=bg)
+                  else: d.rounded_rectangle((0,0,S-1,S-1),radius=int(S*0.22),fill=bg)
+              c=S/2; gold=(215,180,90,255)
+              for i in range(12):
+                  a=math.radians(i*30); r1=S*0.28*scale; r2=S*(0.40 if i%2==0 else 0.35)*scale
+                  d.line((c+r1*math.cos(a),c+r1*math.sin(a),c+r2*math.cos(a),c+r2*math.sin(a)),fill=gold,width=int(S*0.035*scale))
+              r=S*0.23*scale
+              d.ellipse((c-r,c-r,c+r,c+r),fill=(240,213,141,255))
+              t=S*0.11*scale
+              d.polygon([(c-t*0.6,c-t),(c-t*0.6,c+t),(c+t*1.1,c)],fill=(11,11,11,255))
+              return img.resize((size,size),Image.LANCZOS)
+          if __name__=='__main__':
+              import sys
+              res=sys.argv[1] if len(sys.argv)>1 else 'out/res'
+              dens={'mdpi':(48,108),'hdpi':(72,162),'xhdpi':(96,216),'xxhdpi':(144,324),'xxxhdpi':(192,432)}
+              for k,(l,f) in dens.items():
+                  p=f'{res}/mipmap-{k}'; os.makedirs(p,exist_ok=True)
+                  sun(l,(11,11,11,255),1.0,'square').save(p+'/ic_launcher.png')
+                  sun(l,(11,11,11,255),1.0,'round').save(p+'/ic_launcher_round.png')
+                  sun(f,None,0.78).save(p+'/ic_launcher_foreground.png')
+              os.makedirs(res+'/values',exist_ok=True)
+              open(res+'/values/ic_launcher_background.xml','w').write('<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#0B0B0B</color>\n</resources>\n')
+              print('icons written to',res)
+          PYEOF
+          python3 make_icons.py android/app/src/main/res
+
+      - name: Add microphone permission
+        run: |
+          sed -i 's#</manifest>#    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />\n    <uses-feature android:name="android.hardware.microphone" android:required="false" />\n</manifest>#' android/app/src/main/AndroidManifest.xml
+          tail -12 android/app/src/main/AndroidManifest.xml
 
       - name: Sync web app into Android project
         run: npx cap sync android
@@ -44,3 +89,4 @@ jobs:
           name: SUNPLAY-debug-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          
