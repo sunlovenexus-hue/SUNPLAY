@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b0b"><title>SUNPLAY — Create. Play. Inspire.</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand"><span class="sun">✦</span> SUNPLAY</div>
+  <div class="tag">CREATE. PLAY. INSPIRE.</div>
+  <nav>
+    <button class="nav active" data-page="home">⌂ <span>Home</span></button>
+    <button class="nav" data-page="player">♫ <span>Music Player</span></button>
+    <button class="nav" data-page="playlists">▤ <span>Playlists</span></button>
+    <button class="nav" data-page="lyrics">✎ <span>Lyrics Studio</span></button>
+    <button class="nav" data-page="music">◉ <span>AI Music Studio</span></button>
+    <button class="nav" data-page="images">▧ <span>AI Image Studio</span></button>
+    <button class="nav" data-page="video">▶ <span>AI Video Studio</span></button>
+    <button class="nav" data-page="convert">⇄ <span>Video to MP3</span></button>
+  </nav>
+  <div class="side-note">Your creative world, in one place.</div>
+</aside>
+<main>
+<header><button id="menu" aria-label="Menu">☰</button><div class="crumb">SUNPLAY <span>/</span> <b id="pageTitle">Home</b></div><div class="avatar">S</div></header>
+<section class="hero">
+  <div><div class="eyebrow">WELCOME TO YOUR CREATIVE STUDIO</div><h1>Make your sound<br><em>shine.</em></h1><p>Play music, write lyrics, and bring your creative ideas to life.</p><button class="gold-btn" data-go="music">Open AI Music Studio <b>→</b></button></div>
+  <div class="hero-disc"><div class="disc"><div class="disc-center">✦</div></div><span class="disc-caption">THE SOUND OF YOU</span></div>
+</section>
+<section id="home" class="page active">
+  <div class="section-head"><div><div class="eyebrow">YOUR WORKSPACE</div><h2>Creative tools</h2></div><span class="muted">All your tools, one SUNPLAY</span></div>
+  <div class="tiles">
+    <article class="tile" data-go="player"><div class="tile-icon">♫</div><h3>Music Player</h3><p>Play your audio files and enjoy your collection.</p><span>Explore →</span></article>
+    <article class="tile" data-go="lyrics"><div class="tile-icon">✎</div><h3>Lyrics Studio</h3><p>Write, edit, and organize your song lyrics.</p><span>Start writing →</span></article>
+    <article class="tile" data-go="music"><div class="tile-icon">◉</div><h3>AI Music Studio</h3><p>Plan songs, record vocals, and connect music-generation services.</p><span>Create music →</span></article>
+    <article class="tile" data-go="images"><div class="tile-icon">▧</div><h3>AI Image Studio</h3><p>Plan cover art, visual concepts, and creative images.</p><span>Create images →</span></article>
+    <article class="tile" data-go="video"><div class="tile-icon">▶</div><h3>AI Video Studio</h3><p>Plan music videos, lyric videos, and visual stories.</p><span>Create video →</span></article>
+    <article class="tile" data-go="convert"><div class="tile-icon">⇄</div><h3>Video to MP3</h3><p>Convert video files you own or have permission to use.</p><span>Convert audio →</span></article>
+  </div>
+</section>
+<section id="player" class="page">
+  <div class="eyebrow">LISTEN YOUR WAY</div><h2>Music Player</h2><p class="muted">Choose audio files stored on your device. Your files stay on your device in this starter version.</p>
+  <label class="gold-btn file-label">＋ Add music files<input id="audioFiles" type="file" accept="audio/*" multiple></label>
+  <div id="trackList" class="track-list"><div class="empty">Your music library is waiting. Add audio files to begin.</div></div>
+  <div class="player-bar"><div><b id="nowPlaying">Nothing playing</b><small id="trackInfo">Select a track from your library</small></div><audio id="audio" controls></audio></div>
+</section>
+<section id="playlists" class="page">
+  <div class="eyebrow">KEEP IT ORGANIZED</div><h2>Playlists</h2><p class="muted">Create playlist names and organize your music ideas.</p>
+  <div class="inline-form"><input id="playlistName" placeholder="e.g. Gospel inspiration"><button class="gold-btn" id="addPlaylist">Create playlist</button></div><div id="playlistsList" class="track-list"><div class="empty">No playlists yet.</div></div>
+</section>
+<section id="lyrics" class="page">
+  <div class="eyebrow">PUT YOUR STORY INTO WORDS</div><h2>Lyrics Studio</h2><div class="field"><label>Song title</label><input id="lyricTitle" placeholder="Enter song title"></div><div class="field"><label>Your lyrics</label><textarea id="lyricText" rows="12" placeholder="Verse 1&#10;Write your lyrics here...&#10;&#10;Chorus&#10;Your chorus goes here..."></textarea></div><button class="gold-btn" id="saveLyrics">Save lyrics on this device</button><span id="lyricStatus" class="status"></span>
+</section>
+<section id="music" class="page">
+  <div class="eyebrow">TURN IDEAS INTO SOUND</div><h2>AI Music Studio</h2><p class="muted">Prepare a music-generation brief, record vocals, or upload a vocal take. Connecting a music AI provider is a later setup step.</p>
+  <div class="two-col"><div class="panel"><h3>Song brief</h3><div class="field"><label>Genre</label><select id="genre"><option>Gospel</option><option>Afro-pop</option><option>Afrobeats</option><option>R&B</option><option>Hip-hop</option><option>Amapiano</option><option>Reggae</option><option>Acoustic</option></select></div><div class="field"><label>Mood</label><select id="mood"><option>Hopeful and uplifting</option><option>Peaceful</option><option>Joyful</option><option>Emotional</option><option>Worshipful</option><option>Energetic</option></select></div><div class="field"><label>Describe your song</label><textarea id="musicPrompt" rows="4" placeholder="Describe the sound, instruments, tempo, and message..."></textarea></div><button class="gold-btn" id="makeBrief">Prepare generation brief</button><pre id="briefOut" class="output"></pre></div>
+  <div class="panel"><h3>Voice recording</h3><p class="muted">Record a vocal idea using your microphone (browser permission required).</p><div class="record-row"><button id="recordBtn" class="gold-btn">● Start recording</button><span id="recordStatus" class="status">Ready</span></div><audio id="recordedAudio" controls hidden></audio><div class="field"><label>Or upload a vocal recording</label><input id="vocalUpload" type="file" accept="audio/*"></div><p class="tiny">Generated instrumentals, backing vocals, and voice transformation require an external AI audio service and your consent to upload recordings.</p></div></div>
+</section>
+<section id="images" class="page">
+  <div class="eyebrow">GIVE YOUR IDEAS A LOOK</div><h2>AI Image Studio</h2><p class="muted">Create a detailed image prompt for album covers, gospel artwork, posters, or lyric-video backgrounds.</p>
+  <div class="panel"><div class="field"><label>What image do you imagine?</label><textarea id="imagePrompt" rows="5" placeholder="Describe the subject, setting, lighting, colors, and style..."></textarea></div><div class="field"><label>Image type</label><select id="imageType"><option>Album cover</option><option>Inspirational / gospel artwork</option><option>Lyric video background</option><option>Artist promotional poster</option></select></div><button class="gold-btn" id="imageBrief">Build image prompt</button><pre id="imageOut" class="output"></pre></div>
+</section>
+<section id="video" class="page">
+  <div class="eyebrow">BRING THE MUSIC TO LIFE</div><h2>AI Video Studio</h2><p class="muted">Prepare a concept for a music video, lyric video, or image-to-video sequence.</p>
+  <div class="panel"><div class="field"><label>Video concept</label><textarea id="videoPrompt" rows="4" placeholder="Describe the story, scenes, camera movement, and atmosphere..."></textarea></div><div class="field"><label>Video format</label><select id="videoType"><option>Music video</option><option>Lyric video</option><option>Image-to-video</option><option>Short social clip</option></select></div><div class="field"><label>Lyrics / captions (optional)</label><textarea id="videoLyrics" rows="3" placeholder="Paste lyrics or subtitles..."></textarea></div><button class="gold-btn" id="videoBrief">Prepare video brief</button><pre id="videoOut" class="output"></pre></div>
+</section>
+<section id="convert" class="page">
+  <div class="eyebrow">AUDIO WORKSPACE</div><h2>Video to MP3</h2><p class="muted">Select a video file you own or are authorized to convert. Conversion support depends on browser codecs; larger files may need a dedicated media-processing service.</p>
+  <div class="panel"><input id="videoFile" type="file" accept="video/*"><button id="convertBtn" class="gold-btn">Convert to MP3</button><span id="convertStatus" class="status"></span><a id="downloadMp3" class="download" hidden>Download MP3</a></div>
+</section>
+<footer>© SUNPLAY · CREATE. PLAY. INSPIRE.</footer>
+</main>
+<script src="app.js"></script>
+</body></html>
